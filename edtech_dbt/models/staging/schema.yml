@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: stg_engagement
+    description: "Staging model for engagement data (one row per district-product-date). Note: engagement_index and lp_id can be null for days with no or incomplete usage data."
+
+  - name: stg_districts
+    description: "Staging model for district-level demographics and metadata"
+    columns:
+      - name: district_id
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_products
+    description: "Staging model for edtech products"
+    columns:
+      - name: product_name
+        description: "Clean product name from source 'Product Name' column"
+        tests:
+          - not_null

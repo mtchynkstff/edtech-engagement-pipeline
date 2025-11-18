@@ -1,0 +1,16 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Data & warehouse (ignored for size and licensing)
+data/raw/
+warehouse/
+
+# dbt artifacts
+edtech_dbt/target/
+edtech_dbt/dbt_packages/
+logs/
+
+# Jupyter
+.ipynb_checkpoints/
