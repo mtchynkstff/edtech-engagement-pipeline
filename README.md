@@ -1,117 +1,183 @@
-# 📊 EdTech Engagement Analytics Pipeline  
-### Modern data pipeline using Python, DuckDB, dbt, and the LearnPlatform COVID-19 Digital Learning Dataset
+# 📊 EdTech Engagement Pipeline  
+**An end-to-end analytical data engineering & analytics project using dbt, DuckDB, and Jupyter**
 
-[![dbt](https://img.shields.io/badge/dbt-%23FF694B.svg?style=for-the-badge&logo=dbt&logoColor=white)]()
-[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg?style=for-the-badge&logo=python&logoColor=white)]()
-[![DuckDB](https://img.shields.io/badge/DuckDB-Analytics%20DB-yellow.svg?style=for-the-badge)]()
-[![Status](https://img.shields.io/badge/Status-In%20Progress-brightgreen.svg?style=for-the-badge)]()
+---
 
-## Project Overview
+## 🚀 Project Overview
 
-This project builds a start-to-finish modern data analytics pipeline for analyzing K–12 digital learning engagement using the LearnPlatform COVID-19 Impact on Digital Learning dataset.
+This project builds a **modern analytics pipeline** for the *LearnPlatform COVID-19 Digital Engagement Dataset*, transforming raw CSVs into a clean, queryable analytics warehouse and performing meaningful analysis on digital learning engagement during the COVID-19 disruptions.
 
-The goal is to showcase real-world skills in ETL/ELT engineering, warehousing, analytics engineering, dimensional modeling, and data testing.
+Built using **Python (pandas), DuckDB, dbt, and Jupyter**, the pipeline demonstrates:
 
-## Architectural Diagram
+- A scalable local analytics warehouse  
+- Clean, testable transformations using dbt  
+- Exploratory and visual analysis using Python  
+- Insights aligned to real EdTech business questions  
 
-```
-                 +---------------------------+
-                 |   LearnPlatform Dataset   |
-                 +-------------+-------------+
-                               |
-                               v
-                 | Python ETL (pandas + duckdb) |
-                               v
-                 +---------------------------+
-                 |     DuckDB Warehouse      |
-                 +-------------+-------------+
-                               |
-                               v
-                 |           dbt             |
-                               v
-                 +---------------------------+
-                 |     Analytics Layer       |
-                 +-------------+-------------+
-                               |
-                               v
-                 |   BI / Dashboard Outputs |
-```
+This is the first of three portfolio projects showcasing end-to-end analytics, aligned with my background as a teacher, digital marketer, and EdTech-focused analyst.
 
-## Repository Structure
+---
 
-```
+# 🏗️ Architecture
+
+Raw Data → Local DuckDB Warehouse → dbt Staging Layer → dbt Marts → Analysis Notebooks → Insights
+
+### Tools Used
+
+| Layer            | Tool         | Purpose                                   |
+|------------------|--------------|-------------------------------------------|
+| Storage          | DuckDB       | Local analytical database                 |
+| Transformations  | dbt-core     | Staging, cleaning, modeling, testing      |
+| Analysis         | Python, Jupyter | EDA, visuals, metrics                  |
+| Version Control  | Git + GitHub | Reproducibility, project tracking         |
+
+---
+
+# 📂 Repository Structure
+
+```text
 edtech-engagement-pipeline/
-├── data/
-│   └── raw/
-│       ├── engagement_data/
-│       ├── districts_info.csv
-│       └── products_info.csv
-├── warehouse/
+│
+├── data/                           # Raw CSVs
+├── warehouse/                      # DuckDB database
 │   └── edtech_engagement.duckdb
-├── src/
-│   └── etl/
-│       └── load_learnplatform_to_duckdb.py
+│
+├── edtech_dbt/                     # dbt project
+│   ├── models/
+│   │   ├── staging/                # Clean staging models
+│   │   └── marts/                  # Fact + dimension tables
+│   └── ...
+│
 ├── notebooks/
-│   └── exploratory_data_analysis.ipynb
-└── edtech_dbt/
-    ├── dbt_project.yml
-    └── models/
-        └── staging/
-            ├── stg_engagement.sql
-            ├── stg_districts.sql
-            ├── stg_products.sql
-            └── schema.yml
+│   └── 01_engagement_eda.ipynb     # Exploratory data analysis
+│
+├── src/                            # ETL scripts
+└── README.md
 ```
 
-## Getting Started
+---
 
-### 1. Clone the repo
-```bash
-git clone https://github.com/<your-username>/edtech-engagement-pipeline.git
-cd edtech-engagement-pipeline
-```
+# 🔧 Data Pipeline Summary
 
-### 2. Create a virtual environment
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
+### 1️⃣ Raw Data → DuckDB  
 
-### 3. Install dependencies
-```bash
-pip install duckdb pandas dbt-core dbt-duckdb
-```
+The LearnPlatform CSVs are loaded into a fast, analytical DuckDB warehouse (`warehouse/edtech_engagement.duckdb`).
 
-### 4. Load the raw dataset into DuckDB
-```bash
-python src/etl/load_learnplatform_to_duckdb.py
-```
+### 2️⃣ dbt Staging Layer  
 
-### 5. Run dbt
-```bash
-cd edtech_dbt
-dbt run
-dbt test
-```
+Standardizes naming, types, and structure for:
 
-## Example Queries
+- `stg_districts`  
+- `stg_products`  
+- `stg_engagement`  
 
-```sql
-SELECT lp_id,
-       AVG(engagement_index) AS avg_engagement
-FROM analytics.stg_engagement
-GROUP BY 1
-ORDER BY avg_engagement DESC
-LIMIT 10;
-```
+### 3️⃣ dbt Marts Layer  
 
-## Next Steps
+Curated analytical tables:
 
-- Build marts: fct_daily_engagement, dim_products, district_summary  
-- Add documentation and exposures  
-- Build dashboard outputs  
-- Add visual EDA notebook  
+- `fct_daily_engagement` – daily engagement metrics by product and date  
+- (Planned) `dim_products` – product metadata and categorization  
 
-## Data Quality Considerations
+### 4️⃣ Data Quality Tests  
 
-- Some daily engagement rows are missing a product id (lp_id). This likely reflects incomplete product mapping in the source data.
+dbt tests validate:
+
+- Uniqueness  
+- Non-null fields  
+- Data completeness  
+- Reasonable row counts  
+
+Most tests pass cleanly; expected warnings occur due to vendor-provided missing `lp_id` values in some engagement rows.
+
+### 5️⃣ Jupyter Analysis  
+
+The first notebook performs EDA using SQL via DuckDB and pandas visualizations.
+
+---
+
+# 📘 01 – Exploratory Data Analysis (EDA)
+
+**Notebook:** `notebooks/01_engagement_eda.ipynb`
+
+### Highlights
+
+- Connects directly to the DuckDB warehouse  
+- Verifies table schemas and row counts  
+- Explores trends in district-level digital engagement  
+- Calculates top products by average engagement index  
+- Visualizes:
+  - Daily engagement trends over time  
+  - Highest-engagement products (by `lp_id`)  
+  - Missingness patterns (e.g., null `lp_id`)  
+- Identifies data quality considerations and their impact on analysis  
+
+### What This Establishes
+
+- The pipeline is functioning end to end  
+- Engagement varies meaningfully over time and across products  
+- Product adoption and usage patterns are measurable  
+- The dataset can support deeper analytics (e.g., clustering, forecasting, dashboards)
+
+---
+
+# 🎯 Key Business Questions This Project Answers
+
+### 1️⃣ How did digital learning engagement change across the COVID-19 disruption?
+
+- Identify spikes, drops, and plateaus in engagement  
+- Compare engagement patterns across the time period  
+- Understand stability vs. volatility in digital engagement  
+
+### 2️⃣ Which digital tools saw the highest engagement?
+
+- Rank products by average engagement index  
+- Compare tools by adoption and engagement levels  
+- Identify tools with widespread or niche usage across districts  
+
+### 3️⃣ Which districts show signs of digital inequity?
+
+- Diagnose low-access or low-engagement districts  
+- Identify where engagement data is sparse or incomplete  
+- Surface patterns that may correlate with equity and resource challenges  
+
+---
+
+# 📊 Current Outputs
+
+- ✅ Raw data loaded into a local DuckDB warehouse  
+- ✅ dbt project with staging + fact table (`fct_daily_engagement`)  
+- ✅ dbt tests (passing with a documented warning on null `lp_id`)  
+- ✅ Exploratory analysis notebook (`01_engagement_eda.ipynb`)  
+- ✅ Visual insights into engagement trends and product usage  
+- ✅ Version-controlled, reproducible pipeline on GitHub  
+
+---
+
+# 🛣️ Roadmap
+
+### 📘 02 – Product-Level Analysis  
+
+- Deeper analysis of product categories and vendors  
+- Volatility and seasonality of engagement by product  
+
+### 📘 03 – District Segmentation  
+
+- Cluster districts by engagement patterns, access, and tool usage  
+- Identify district archetypes (e.g., high-engagement, low-access, highly volatile)
+
+### 📊 04 – Dashboard  
+
+- Build an interactive dashboard (Looker Studio / Tableau) using the dbt marts  
+- Visualize trends, top tools, and district comparisons for non-technical stakeholders  
+
+### 📚 05 – dbt Docs Site  
+
+- Generate dbt documentation for schema and lineage  
+- Provide a browsable catalog of models, sources, and tests  
+
+---
+
+# 🤝 Contact
+
+Questions, collaboration ideas, or feedback are welcome.  
+Feel free to open an issue or reach out via GitHub.
