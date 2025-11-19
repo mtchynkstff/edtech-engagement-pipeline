@@ -112,7 +112,6 @@ LIMIT 10;
 - Build dashboard outputs  
 - Add visual EDA notebook  
 
-## Author
+## Data Quality Considerations
 
-Mitchell Yen-Kastoff  
-Data Analyst • Former Teacher • EdTech + AI
+- Some daily engagement rows are missing a product id (lp_id). This likely reflects incomplete product mapping in the source data.
