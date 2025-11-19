@@ -50,6 +50,7 @@ edtech-engagement-pipeline/
 │
 ├── notebooks/
 │   └── 01_engagement_eda.ipynb     # Exploratory data analysis
+│   └── 02_project_analysis.ipynb   # Exploratory product analysis
 │
 ├── src/                            # ETL scripts
 └── README.md
@@ -91,7 +92,7 @@ Most tests pass cleanly; expected warnings occur due to vendor-provided missing 
 
 ### 5️⃣ Jupyter Analysis  
 
-The first notebook performs EDA using SQL via DuckDB and pandas visualizations.
+The notebooks performs EDA using SQL via DuckDB and pandas visualizations.
 
 ---
 
@@ -117,6 +118,34 @@ The first notebook performs EDA using SQL via DuckDB and pandas visualizations.
 - Engagement varies meaningfully over time and across products  
 - Product adoption and usage patterns are measurable  
 - The dataset can support deeper analytics (e.g., clustering, forecasting, dashboards)
+
+# 📘 02 – Product-Level Engagement Analysis
+
+**Notebook:** `notebooks/02_product_analysis.ipynb`
+
+### Highlights
+
+- Queries DuckDB directly for aggregated product-level metrics
+- Ranks products by:
+  - Average engagement index
+  - Volatility (standard deviation)
+  - Days observed
+- Includes multiple visualizations:
+  - Top products by average engagement
+  - Most volatile products
+- Provides a clear, honest “future work” section noting that product metadata
+(product name, provider) will be incorporated once lp_id is fully wired into stg_products
+
+### What This Adds to the Project
+
+This notebook deepens the analytical backbone of the project by focusing on variation between individual EdTech tools. It’s directly applicable to:
+
+- EdTech product strategy
+- Competitive analysis
+- Vendor evaluation
+- Usage pattern discovery
+
+And it moves the project closer to district segmentation and forecasting work in subsequent notebooks.
 
 ---
 
@@ -149,28 +178,30 @@ The first notebook performs EDA using SQL via DuckDB and pandas visualizations.
 - ✅ dbt tests (passing with a documented warning on null `lp_id`)  
 - ✅ Exploratory analysis notebook (`01_engagement_eda.ipynb`)  
 - ✅ Visual insights into engagement trends and product usage  
-- ✅ Version-controlled, reproducible pipeline on GitHub  
+- ✅ Version-controlled, reproducible pipeline on GitHub
+- ✅ Added second analysis notebook: Product-Level Engagement Analysis
+- ✅ Visualizations of top products and volatility
+- ✅ Framework for future enrichment using product metadata
 
 ---
 
 # 🛣️ Roadmap
-
-### 📘 02 – Product-Level Analysis  
-
-- Deeper analysis of product categories and vendors  
-- Volatility and seasonality of engagement by product  
 
 ### 📘 03 – District Segmentation  
 
 - Cluster districts by engagement patterns, access, and tool usage  
 - Identify district archetypes (e.g., high-engagement, low-access, highly volatile)
 
-### 📊 04 – Dashboard  
+### 📘 04 – Product Metadata Integration (dbt updates)
+
+- Expose `lp_id` and product attributes in `stg_products` and join them cleanly to the fact table.
+
+### 📊 05 – Dashboard  
 
 - Build an interactive dashboard (Looker Studio / Tableau) using the dbt marts  
 - Visualize trends, top tools, and district comparisons for non-technical stakeholders  
 
-### 📚 05 – dbt Docs Site  
+### 📚 06 – dbt Docs Site  
 
 - Generate dbt documentation for schema and lineage  
 - Provide a browsable catalog of models, sources, and tests  
