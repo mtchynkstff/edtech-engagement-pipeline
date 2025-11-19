@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: fct_daily_engagement
+    description: "Daily engagement fact table by product (lp_id) and date."
+    columns:
+      - name: usage_date
+        tests:
+          - not_null
+      - name: lp_id
+        description: "Product id; null for some rows with incomplete product mapping."
+        tests:
+          - not_null:
+              severity: warn
