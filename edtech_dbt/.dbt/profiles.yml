@@ -1,0 +1,14 @@
+edtech_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../warehouse/edtech_engagement.duckdb
+      schema: analytics
+      threads: 1
+
+    ci:
+      type: duckdb
+      path: ../warehouse/ci.duckdb
+      schema: analytics
+      threads: 1

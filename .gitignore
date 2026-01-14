@@ -14,3 +14,15 @@ logs/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# DuckDB databases
+warehouse/*.duckdb
+warehouse/*.db
+
+# dbt artifacts
+edtech_dbt/target/
+edtech_dbt/dbt_packages/
+edtech_dbt/logs/

@@ -1,14 +1,49 @@
 version: 2
 
 models:
-  - name: fct_daily_engagement
-    description: "Daily engagement fact table by product (lp_id) and date."
+  - name: dim_products
+    description: "Product dimension table (one row per lp_id)."
+    columns:
+      - name: lp_id
+        description: "Unique product identifier from the LearnPlatform dataset."
+        tests:
+          - unique
+          - not_null
+
+      - name: product_name
+
+  - name: fct_product_daily_engagement
+    description: "Daily engagement metrics by product (lp_id) and date (usage_date)."
+    tests:
+      - unique:
+          arguments:
+            column_name: "concat(cast(lp_id as varchar), '-', cast(usage_date as varchar))"
+
     columns:
       - name: usage_date
         tests:
           - not_null
+
       - name: lp_id
-        description: "Product id; null for some rows with incomplete product mapping."
+        description: "Foreign key to dim_products.lp_id."
         tests:
-          - not_null:
-              severity: warn
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_products')
+                field: lp_id
+
+      - name: avg_pct_access
+        description: "Average percent access across all engagement records for the product on the day."
+        tests:
+          - not_null
+
+      - name: avg_engagement_index
+        description: "Average engagement index across all engagement records for the product on the day."
+
+  - name: fct_daily_engagement_unknown_product
+    description: "Engagement records where lp_id is null (unmapped products). Kept for completeness and data quality monitoring."
+    columns:
+      - name: usage_date
+        tests:
+          - not_null
