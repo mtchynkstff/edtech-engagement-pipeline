@@ -39,7 +39,7 @@ edtech-engagement-pipeline/
 ├── src/
 ├── Makefile
 └── README.md
-
+```
 ---
 
 ## 🔧 Data Pipeline Summary
