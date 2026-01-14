@@ -26,6 +26,7 @@ Raw Data → DuckDB Warehouse → dbt Staging → dbt Marts → Analyses / Noteb
 
 ## 📂 Repository Structure
 
+```text
 edtech-engagement-pipeline/
 ├── data/
 ├── warehouse/
