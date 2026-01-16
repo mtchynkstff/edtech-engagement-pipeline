@@ -14,8 +14,6 @@ Built using **Python (pandas), DuckDB, dbt, and Jupyter**, the pipeline demonstr
 - Explicit handling of incomplete and messy real-world data
 - Exploratory and analytical outputs aligned to EdTech business questions
 
-This is the first of three portfolio projects showcasing end-to-end analytics, aligned with my background as a teacher, digital marketer, and EdTech-focused analyst.
-
 ---
 
 ## 🏗️ Architecture
@@ -41,7 +39,7 @@ edtech-engagement-pipeline/
 ├── src/
 ├── Makefile
 └── README.md
-
+```
 ---
 
 ## 🔧 Data Pipeline Summary
