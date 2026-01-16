@@ -1,24 +1,27 @@
 # 📊 EdTech Engagement Pipeline
-**An end-to-end analytics engineering & analytics project using dbt, DuckDB, Python, and Jupyter**
+**An end-to-end analytics engineering & product analytics project using dbt, DuckDB, Python, and Jupyter**
 
 ---
 
 ## 🚀 Project Overview
 
-This project builds a **modern analytics pipeline** for the *LearnPlatform COVID-19 Digital Engagement Dataset*, transforming raw CSVs into a clean, queryable analytics warehouse and performing meaningful analysis on digital learning engagement during the COVID-19 disruptions.
+This project builds a **modern, reproducible analytics pipeline** for the *LearnPlatform COVID-19 Digital Engagement Dataset*.  
+Raw CSV data is transformed into a clean DuckDB warehouse using **dbt**, then analyzed through **Jupyter notebooks** to surface product-level engagement patterns in EdTech usage during COVID-era disruptions.
 
-Built using **Python (pandas), DuckDB, dbt, and Jupyter**, the pipeline demonstrates:
-
-- A reproducible local analytics warehouse
-- Clean, testable transformations using dbt
-- Explicit handling of incomplete and messy real-world data
-- Exploratory and analytical outputs aligned to EdTech business questions
+The project intentionally balances **analytics engineering rigor** with **exploratory and decision-oriented analysis**, mirroring how data teams support product, curriculum, and implementation stakeholders.
 
 ---
 
 ## 🏗️ Architecture
 
-Raw Data → DuckDB Warehouse → dbt Staging → dbt Marts → Analyses / Notebooks → Insights
+```
+Raw CSVs
+  → DuckDB Warehouse
+    → dbt Staging Models
+      → dbt Fact & Dimension Marts
+        → Jupyter Notebooks
+          → Product & Engagement Insights
+```
 
 ---
 
@@ -26,54 +29,84 @@ Raw Data → DuckDB Warehouse → dbt Staging → dbt Marts → Analyses / Noteb
 
 ```text
 edtech-engagement-pipeline/
-├── data/
-├── warehouse/
+├── data/                     # Raw CSV inputs
+├── warehouse/                # DuckDB database file
 ├── edtech_dbt/
 │   ├── models/
-│   │   ├── staging/
-│   │   └── marts/
+│   │   ├── staging/           # Cleaned, typed source models
+│   │   └── marts/             # Fact & dimension tables
 │   ├── analyses/
 │   ├── seeds/
 │   └── .dbt/
-├── notebooks/
+├── notebooks/                 # EDA & product analysis notebooks
 ├── src/
 ├── Makefile
 └── README.md
 ```
+
 ---
 
 ## 🔧 Data Pipeline Summary
 
-### dbt Staging
-- stg_districts
-- stg_products
-- stg_engagement
+### dbt Staging Models
+- **stg_districts** – district metadata with standardized types
+- **stg_products** – product reference data
+- **stg_engagement** – cleaned daily engagement records
 
-### dbt Marts
-- fct_product_daily_engagement (product × day grain)
-- fct_daily_engagement_unknown_product (null lp_id rows)
-- dim_products (coverage-first dimension)
+### dbt Mart Models
+- **fct_product_daily_engagement**  
+  Product × day grain fact table containing averaged engagement metrics
 
-All models are fully tested with dbt.
+- **fct_daily_engagement_unknown_product**  
+  Daily rollups of engagement rows where `lp_id` is missing (QA / coverage analysis)
+
+- **dim_products**  
+  Coverage-first product dimension
+
+All models include schema and data tests to ensure correctness.
+
+---
+
+## 📊 Analysis Notebooks
+
+The notebooks are designed to be **readable on GitHub** and focus on *interpretation*, not just charts.
+
+- **01_engagement_eda.ipynb**
+  - Data coverage & quality checks
+  - Engagement distribution analysis
+  - Time-based trends
+  - Product-level volatility analysis
+
+- **02_product_analysis.ipynb**
+  - Engagement concentration (Pareto-style analysis)
+  - Stable vs volatile product behavior
+  - Product usage patterns over time
+  - Framing insights for product and instructional decisions
 
 ---
 
 ## 🧪 How to Run Locally
 
-pip install dbt-duckdb  
-cd edtech_dbt  
-dbt seed --profiles-dir .dbt --target ci  
-dbt build --profiles-dir .dbt --target ci  
+```bash
+pip install dbt-duckdb
+cd edtech_dbt
+dbt seed --profiles-dir .dbt --target ci
+dbt build --profiles-dir .dbt --target ci
+```
+
+Then open and run the notebooks from the `notebooks/` directory.
 
 ---
 
 ## 🔁 CI
 
-GitHub Actions runs seeded dbt builds to ensure reproducibility.
+GitHub Actions runs seeded dbt builds to validate:
+- Model correctness
+- Schema tests
+- Reproducibility of the analytics warehouse
 
 ---
 
-## 📘 Notebooks
+## 🎯 Key Takeaway
 
-- 01_engagement_eda.ipynb
-- 02_product_analysis.ipynb
+This project demonstrates how **engagement data can be responsibly analyzed** to understand product adoption patterns—highlighting the difference between *sporadic usage* and *sustained instructional integration* in EdTech platforms.
