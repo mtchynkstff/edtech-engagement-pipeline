@@ -1,5 +1,7 @@
 -- Staging model for district-level info
 
-select
+SELECT
+    CAST(district_id AS BIGINT) AS district_id,
     *
-from raw_districts
+EXCLUDE (district_id)
+FROM {{ ref('raw_districts') }};
