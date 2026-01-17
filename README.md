@@ -5,10 +5,13 @@
 
 ## 🚀 Project Overview
 
-This project builds a **modern, reproducible analytics pipeline** for the *LearnPlatform COVID-19 Digital Engagement Dataset*.  
+This project builds a **modern, reproducible analytics pipeline** for the *LearnPlatform COVID-19 Digital Engagement Dataset*.
+
 Raw CSV data is transformed into a clean DuckDB warehouse using **dbt**, then analyzed through **Jupyter notebooks** to surface product-level engagement patterns in EdTech usage during COVID-era disruptions.
 
 The project intentionally balances **analytics engineering rigor** with **exploratory and decision-oriented analysis**, mirroring how data teams support product, curriculum, and implementation stakeholders.
+
+Rather than treating engagement as an outcome, the analysis focuses on how engagement patterns can inform **product prioritization and implementation decisions** under real-world data constraints.
 
 ---
 
@@ -70,6 +73,8 @@ All models include schema and data tests to ensure correctness.
 ## 📊 Analysis Notebooks
 
 The notebooks are designed to be **readable on GitHub** and focus on *interpretation*, not just charts.
+
+Each notebook is scoped to answer a specific set of questions and intentionally balances exploratory analysis with actionable interpretation.
 
 - **01_engagement_eda.ipynb**
   - Data coverage & quality checks
